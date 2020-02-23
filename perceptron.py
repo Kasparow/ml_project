@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 import json
 
 
@@ -79,6 +80,16 @@ def decision_function2d(x1, coefs):
     return (-coefs[0] - coefs[1]*x1)/coefs[2]
 
 
+def plot_graph(X, y, xx, yy):
+    def get_colors(y):
+        colors = [None, 'green', 'red']  # class 1: green, class -1: red
+        return [colors[c] for c in y]
+
+    plt.scatter(X[:,0], X[:,1], c=get_colors(y))
+    plt.plot(xx, yy)  # decision boundary
+    plt.show()
+
+
 if __name__ == "__main__":
     d = json.load(open("./test_data.json", "r"))
 
@@ -91,8 +102,11 @@ if __name__ == "__main__":
     #print(X)
     print("Finally predicting:", predict(insert_intercept(X[0]), coefs))
 
-    plotx = np.linspace(-0.5, 1.5, 10)
-    x2 = decision_function2d(plotx, coefs)
+    x1 = np.linspace(-0.5, 1.5, 10)
+    x2 = decision_function2d(x1, coefs)
+
+    plot_graph(X, y, x1, x2)
+
     """ for k, v in d.items():
         print(f"Fitting case {k}")
         c = fit(np.array(v["X"]), np.array(v["y"]), epochs=5)
