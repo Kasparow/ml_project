@@ -6,8 +6,8 @@ import json
 def predict(coefs, x):
     """ requires coefs.shape == x.shape
     with or without intercept (bias) """
-    print(f"x: {x}")
-    print(f"bias {coefs[0]}, weights {coefs[1:]}")
+    #print(f"x: {x}")
+    #print(f"bias {coefs[0]}, weights {coefs[1:]}")
     return coefs@x.T
 
 
@@ -32,8 +32,8 @@ def fit(X, y, epochs=1):
     # 1. initialize coef-vector
     # 2. iterate weight updates over # epochs
     coefs = np.random.rand(X.shape[1])
-    print(f"[before] coefficients: {coefs}\n")
-    print("-"*80)
+    #print(f"[before] coefficients: {coefs}\n")
+    #print("-"*80)
 
     for i in range(epochs):
         # Perceptron algorithm updates weights after each misclassified sample (online learning).
@@ -42,7 +42,7 @@ def fit(X, y, epochs=1):
         corrects = 0
         for j, x in enumerate(X):  # quite implicit, but iterates over samples
             y_hat = predict(coefs, x)
-            print(f"x: {x} | y_hat: {y_hat}")
+            #print(f"x: {x} | y_hat: {y_hat}")
             # Update coefs if misclassified
             if (y_hat < 0 and y[j]==1):     # predicted=-1 and label=1 -> Misclassified
                 coefs = coefs + x
@@ -51,12 +51,12 @@ def fit(X, y, epochs=1):
             else:  # remove from final version, just to count how many gets correct
                 corrects += 1
 
-            print(f"[after one update] coefficients: {coefs}\n")
+            #print(f"[after one update] coefficients: {coefs}\n")
 
-        print("*"*60, "end of epoch")
+        #print("*"*60, "end of epoch")
 
         if corrects == X.shape[0]:
-            print("All correct!")
+            print(f"All correct! Epoch {i+1}")
             return coefs
 
     return coefs
@@ -88,6 +88,19 @@ def plot_graph(X, y, xx, yy):
     plt.scatter(X[:,0], X[:,1], c=get_colors(y))
     plt.plot(xx, yy)  # decision boundary
     plt.show()
+
+
+def convert_labels(y, threshold=0):
+    """
+    Converts labels from real value domain to binary classes [-1, 1] based on threshold.
+    """
+    y_new = [1 if e >= 0 else -1 for e in y]
+    return np.array(y_new)
+
+
+def accuracy(y_true, y_pred):
+    true_mask = (y_true == y_pred)
+    return true_mask.sum() / true_mask.shape[0]
 
 
 if __name__ == "__main__":
