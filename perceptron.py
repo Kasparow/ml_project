@@ -4,10 +4,6 @@ import json
 
 
 def predict(coefs, x):
-    """ requires coefs.shape == x.shape
-    with or without intercept (bias) """
-    #print(f"x: {x}")
-    #print(f"bias {coefs[0]}, weights {coefs[1:]}")
     return coefs@x.T
 
 
@@ -24,40 +20,33 @@ def insert_intercept(X):
     return X
 
 
-def fit(X, y, epochs=1):
-    """ In progress
+def fit(X, y, max_epochs=1):
+    """
     args: X, y
-    kwargs: epochs
+    kwargs: max_epochs
     """
     # 1. initialize coef-vector
-    # 2. iterate weight updates over # epochs
+    # 2. iterate weight updates over max # epochs
     coefs = np.random.rand(X.shape[1])
-    #print(f"[before] coefficients: {coefs}\n")
-    #print("-"*80)
-
-    for i in range(epochs):
+    for i in range(max_epochs):
         # Perceptron algorithm updates weights after each misclassified sample (online learning).
         # Stream over each sample and perform update if sample is misclassified.
         # The size of update in Perceptron is always the size of sample values
-        corrects = 0
+        correct_count = 0
         for j, x in enumerate(X):  # quite implicit, but iterates over samples
             y_hat = predict(coefs, x)
-            #print(f"x: {x} | y_hat: {y_hat}")
+
             # Update coefs if misclassified
             if (y_hat < 0 and y[j]==1):     # predicted=-1 and label=1 -> Misclassified
                 coefs = coefs + x
             elif (y_hat >= 0 and y[j]==-1):  # predicted=1 and label=-1 -> Misclassified
                 coefs = coefs - x
             else:  # remove from final version, just to count how many gets correct
-                corrects += 1
+                correct_count += 1
 
-            #print(f"[after one update] coefficients: {coefs}\n")
-
-        #print("*"*60, "end of epoch")
-
-        if corrects == X.shape[0]:
+        if correct_count == X.shape[0]:
             print(f"All correct! Epoch {i+1}")
-            return coefs
+            # return coefs
 
     return coefs
 
@@ -111,7 +100,7 @@ if __name__ == "__main__":
     y = np.array(case["y"])
     # 1. concatenate bias vector shape (1, X.nrows) into X
     #print(X)
-    coefs = fit(insert_intercept(X), y, epochs=15)  # including intercept @ idx 0
+    coefs = fit(insert_intercept(X), y, max_epochs=15)  # including intercept @ idx 0
     #print(X)
     print("Finally predicting:", predict(insert_intercept(X[0]), coefs))
 
@@ -119,8 +108,3 @@ if __name__ == "__main__":
     x2 = decision_function2d(x1, coefs)
 
     plot_graph(X, y, x1, x2)
-
-    """ for k, v in d.items():
-        print(f"Fitting case {k}")
-        c = fit(np.array(v["X"]), np.array(v["y"]), epochs=5)
-        print("="*80, "\n") """
