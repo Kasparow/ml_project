@@ -28,13 +28,17 @@ def fit(X, y, max_epochs=1):
     # 1. initialize coef-vector
     # 2. iterate weight updates over max # epochs
     coefs = np.random.rand(X.shape[1])
+    # coefs = np.zeros(X.shape[1])
+    cls_errors = []
     for i in range(max_epochs):
         # Perceptron algorithm updates weights after each misclassified sample (online learning).
         # Stream over each sample and perform update if sample is misclassified.
         # The size of update in Perceptron is always the size of sample values
         correct_count = 0
+        y_hats = []
         for j, x in enumerate(X):  # quite implicit, but iterates over samples
             y_hat = predict(coefs, x)
+            y_hats.append(-1 if y_hat < 0 else 1)
 
             # Update coefs if misclassified
             if (y_hat < 0 and y[j]==1):     # predicted=-1 and label=1 -> Misclassified
@@ -44,11 +48,14 @@ def fit(X, y, max_epochs=1):
             else:  # remove from final version, just to count how many gets correct
                 correct_count += 1
 
-        if correct_count == X.shape[0]:
-            print(f"All correct! Epoch {i+1}")
-            # return coefs
+        y_hats = np.array(y_hats)
+        cls_error = (y_hats != y).mean()
+        cls_errors.append(cls_error)
+        #if correct_count == X.shape[0]:
+        #    print(f"All correct! Epoch {i+1}")
+        #print(f"classification error: {cls_error}")
 
-    return coefs
+    return coefs, np.array(cls_errors)
 
 
 def decision_function2d(x1, coefs):
@@ -74,6 +81,8 @@ def plot_graph(X, y, xx, yy):
         colors = [None, 'green', 'red']  # class 1: green, class -1: red
         return [colors[c] for c in y]
 
+    plt.xlim(-0.25, 1.25)
+    plt.ylim(-0.25, 1.25)
     plt.scatter(X[:,0], X[:,1], c=get_colors(y))
     plt.plot(xx, yy)  # decision boundary
     plt.show()
@@ -95,16 +104,16 @@ def accuracy(y_true, y_pred):
 if __name__ == "__main__":
     d = json.load(open("./test_data.json", "r"))
 
-    case = d["or"]
+    case = d["and"]
     X = np.array(case["X"])
     y = np.array(case["y"])
     # 1. concatenate bias vector shape (1, X.nrows) into X
     #print(X)
-    coefs = fit(insert_intercept(X), y, max_epochs=15)  # including intercept @ idx 0
+    coefs, cls_errors = fit(insert_intercept(X), y, max_epochs=15)  # including intercept @ idx 0
     #print(X)
-    print("Finally predicting:", predict(insert_intercept(X[0]), coefs))
+    #print("Finally predicting:", predict(insert_intercept(X[0]), coefs))
 
-    x1 = np.linspace(-0.5, 1.5, 10)
-    x2 = decision_function2d(x1, coefs)
+    #x1 = np.linspace(-0.5, 1.5, 10)
+    #x2 = decision_function2d(x1, coefs)
 
-    plot_graph(X, y, x1, x2)
+    #plot_graph(X, y, x1, x2)
