@@ -34,3 +34,13 @@ Create the data/ - directory for storing the dataset used in this task. This dir
 ```
 $ mkdir data/
 ```
+
+## Run the notebooks to reproduce the results
+
+Open jupyter notebooks on your default browser by running the command in the project directory (ml_project/):
+
+`$ jupyter-notebook`
+
+Your default browser opens a new tab with a view of your project files. Open a notebook by clicking it's name.
+
+Once the notebook is open, you can run the results by selecting Cell -> Run Cells from the menu bar at the top.
