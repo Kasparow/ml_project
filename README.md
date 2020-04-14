@@ -29,6 +29,8 @@ Install project dependencies:
 $ pip install -r requirements.txt
 ```
 
+### Download data
+
 Download all of the data used in the project from the following address:
 
 - https://drive.google.com/open?id=1lAWfZmuDcbMvYJ6hAD9yg1Jd-PkFL2BD
