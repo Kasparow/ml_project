@@ -15,7 +15,7 @@ $ cd ml_project/
 
 ### Install dependencies
 
-We will use a python virtual environment for managing dependencies. Create and activate a virtual environment:
+We will use a python virtual environment for managing dependencies. Virtual environment named venv/ is added is ignored by git. Create and activate a virtual environment:
 
 ```
 $ mkdir venv
@@ -27,4 +27,10 @@ Install project dependencies:
 
 ```
 $ pip install -r requirements.txt
+```
+
+Create the data/ - directory for storing the dataset used in this task. This directory will be ignored by git.
+
+```
+$ mkdir data/
 ```
