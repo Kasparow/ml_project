@@ -29,7 +29,14 @@ Install project dependencies:
 $ pip install -r requirements.txt
 ```
 
-Create the data/ - directory for storing the dataset used in this task. This directory will be ignored by git.
+Download all of the data used in the project from the following address:
+
+- https://drive.google.com/open?id=1lAWfZmuDcbMvYJ6hAD9yg1Jd-PkFL2BD
+
+And unzip the data.zip directory under the project root: ml_project/data/. The data-folder will be ignored by git.
+
+
+Alternatively, create an empty data/ - directory for storing your own datasets.
 
 ```
 $ mkdir data/
@@ -39,7 +46,9 @@ $ mkdir data/
 
 Open jupyter notebooks on your default browser by running the command in the project directory (ml_project/):
 
-`$ jupyter-notebook`
+```
+$ jupyter-notebook
+```
 
 Your default browser opens a new tab with a view of your project files. Open a notebook by clicking it's name.
 
