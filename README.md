@@ -1,3 +1,10 @@
+# ML course individual project track
+
+This repo is an individual project assignment for machine learning course at the University of Helsinki. Following basic algorithms are implemented and discussed in the notebooks in this repo:
+- Perceptron and the assumption of linearity with linear activations
+- Probabilistic modeling with Multinomial Naïve Bayes classifier
+- Dimensionality reduction for data visualization with Principal Component Analysis (and T-SNE)
+
 ## Requirements
 
 - Python 3.6+
